@@ -108,11 +108,11 @@ int main(int argc, char *argv[]) {
 
     // Declare variables for parsed command line
     PBRTOptions options;
-    std::vector<std::string> filenames;
+    std::vector<std::string> filenames = {
+        "/home/michal/code/pbrt-v4-scenes/crafted.pbrt"};
     std::string logLevel = "error";
     std::string renderCoordSys = "cameraworld";
     bool format = false, toPly = false;
-
     // Process command-line arguments
     for (auto iter = args.begin(); iter != args.end(); ++iter) {
         if ((*iter)[0] != '-') {
