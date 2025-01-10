@@ -36,7 +36,7 @@ struct BasicPBRTOptions {
 // PBRTOptions Definition
 struct PBRTOptions : BasicPBRTOptions {
     int nThreads = 0;
-    LogLevel logLevel = LogLevel::Error;
+    LogLevel logLevel = LogLevel::Verbose;
     std::string logFile;
     bool logUtilization = false;
     bool writePartialImages = false;
