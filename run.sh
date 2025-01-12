@@ -1,4 +1,4 @@
-THREAD_COUNT=4
+THREAD_COUNT=16
 
 ./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/geometry_calibration/0.pbrt --nthreads $THREAD_COUNT
 ./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/geometry_calibration/1.pbrt --nthreads $THREAD_COUNT
