@@ -1,6 +1,76 @@
-./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/geometry_calibration/0.pbrt
-./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/geometry_calibration/1.pbrt
-./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/geometry_calibration/2.pbrt
-./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/geometry_calibration/3.pbrt
-./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/geometry_calibration/4.pbrt
-./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/geometry_calibration/5.pbrt
+THREAD_COUNT=4
+
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/geometry_calibration/0.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/geometry_calibration/1.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/geometry_calibration/2.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/geometry_calibration/3.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/geometry_calibration/4.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/geometry_calibration/5.pbrt --nthreads $THREAD_COUNT
+
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/0/0.pbrt --nthreads $THREAD_COUNT 
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/0/1.pbrt --nthreads $THREAD_COUNT 
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/0/2.pbrt --nthreads $THREAD_COUNT 
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/0/3.pbrt --nthreads $THREAD_COUNT 
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/0/4.pbrt --nthreads $THREAD_COUNT 
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/0/5.pbrt --nthreads $THREAD_COUNT 
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/0/6.pbrt --nthreads $THREAD_COUNT 
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/0/7.pbrt --nthreads $THREAD_COUNT 
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/0/8.pbrt --nthreads $THREAD_COUNT 
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/0/9.pbrt --nthreads $THREAD_COUNT 
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/0/10.pbrt --nthreads $THREAD_COUNT 
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/0/11.pbrt --nthreads $THREAD_COUNT 
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/0/12.pbrt --nthreads $THREAD_COUNT 
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/0/13.pbrt --nthreads $THREAD_COUNT 
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/0/14.pbrt --nthreads $THREAD_COUNT 
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/0/15.pbrt --nthreads $THREAD_COUNT 
+
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/1/0.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/1/1.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/1/2.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/1/3.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/1/4.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/1/5.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/1/6.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/1/7.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/1/8.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/1/9.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/1/10.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/1/11.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/1/12.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/1/13.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/1/14.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/1/15.pbrt --nthreads $THREAD_COUNT
+
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/2/0.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/2/1.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/2/2.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/2/3.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/2/4.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/2/5.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/2/6.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/2/7.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/2/8.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/2/9.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/2/10.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/2/11.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/2/12.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/2/13.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/2/14.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/2/15.pbrt --nthreads $THREAD_COUNT
+
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/3/0.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/3/1.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/3/2.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/3/3.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/3/4.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/3/5.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/3/6.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/3/7.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/3/8.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/3/9.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/3/10.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/3/11.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/3/12.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/3/13.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/3/14.pbrt --nthreads $THREAD_COUNT
+./build/pbrt /home/michal/code/pbrt-v4-scenes/calibration/phase_calibration/3/15.pbrt --nthreads $THREAD_COUNT
