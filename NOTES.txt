@@ -1,0 +1,1 @@
+find . -name '*.png' -type f -exec bash -c 'convert "$0" "${0%.png}.bmp"' {} \;
