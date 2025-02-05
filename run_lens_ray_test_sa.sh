@@ -1,4 +1,4 @@
-THREAD_COUNT=16
+THREAD_COUNT=12
 [ ! -f "focus0.20.png" ] && ./build/pbrt focus_0.20.pbrt --nthreads $THREAD_COUNT
 [ ! -f "focus0.21.png" ] && ./build/pbrt focus_0.21.pbrt --nthreads $THREAD_COUNT
 [ ! -f "focus0.22.png" ] && ./build/pbrt focus_0.22.pbrt --nthreads $THREAD_COUNT
