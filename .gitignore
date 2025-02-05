@@ -11,3 +11,4 @@ build/
 *.exr
 out
 *.pbrt
+scripts/__pycache__
