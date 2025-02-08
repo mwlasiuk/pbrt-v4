@@ -7,7 +7,6 @@ src/build
 build/
 .cache/
 .vscode
-*.png
 *.exr
 out
 *.pbrt
