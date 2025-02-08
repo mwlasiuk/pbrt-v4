@@ -1,0 +1,62 @@
+LookAt
+    0.0 0.0 0.65
+    0.0 0.0 0.0
+    0.0 1.0 0.0
+
+Camera "realistic"
+    "string lensfile" [ "../../pbrt-v4-scenes/lenses/fisheye.10mm.dat" ]
+    "string lensfile" [ "lenses/lens.dat" ]
+    "float focusdistance" [ 0.65 ]
+    "float aperturediameter" [ 2.0 ]
+
+Film "rgb"
+    "string filename" [ "test_lens_sa.exr" ]
+    "integer xresolution" [ 4096 ]
+    "integer yresolution" [ 4096 ]
+
+Sampler "halton"
+    "integer pixelsamples" [ 128 ]
+
+Integrator "sppm"
+
+Accelerator "bvh"
+
+WorldBegin
+
+AttributeBegin
+    LookAt
+        0.0 0.0 2.5
+        0.0 0.0 0.0
+        0.0 1.0 0.0
+    LightSource "projection"
+        "float scale" [ 10.0 ]
+        "float power" [ 10.0 ]
+        "float fov" [ 25.0 ]
+        "string filename" ["textures/check.png"]
+AttributeEnd
+
+AttributeBegin
+    LightSource "infinite"
+        "blackbody L" [ 4000 ]
+AttributeEnd
+
+AttributeBegin
+    Material "diffuse" 
+        "rgb reflectance" [1.0 1.0 1.0]
+    Translate 0.0 0.0 0.0
+    Shape "bilinearmesh"
+        "point3 P"
+        [ 
+            -0.5 -0.5 0.0
+             0.5 -0.5 0.0
+            -0.5  0.5 0.0
+             0.5  0.5 0.0 
+        ]
+        "point2 uv"
+        [ 
+            0.0 0.0
+            1.0 0.0
+            1.0 1.0
+            0.0 1.0
+        ]
+AttributeEnd
