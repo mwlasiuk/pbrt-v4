@@ -109,6 +109,7 @@ int main(int argc, char *argv[]) {
     // Declare variables for parsed command line
     PBRTOptions options;
     std::vector<std::string> filenames = {};
+    //{"/home/michal/code/pbrt-v4/tests/pbrt_issue_185.pbrt"};
     std::string logLevel = "verbose";
     std::string renderCoordSys = "cameraworld";
     bool format = false, toPly = false;

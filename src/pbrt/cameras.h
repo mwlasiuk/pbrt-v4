@@ -482,6 +482,7 @@ class RealisticCamera : public CameraBase {
     PBRT_CPU_GPU
     pstd::optional<CameraRayDifferential> GenerateRayDifferential(
         CameraSample sample, SampledWavelengths &lambda) const {
+        lambda.TerminateSecondary();
         return CameraBase::GenerateRayDifferential(this, sample, lambda);
     }
 
@@ -532,7 +533,8 @@ class RealisticCamera : public CameraBase {
     Float RearElementRadius() const { return elementInterfaces.back().apertureRadius; }
 
     PBRT_CPU_GPU
-    Float TraceLensesFromFilm(const Ray &rCamera, Ray *rOut) const;
+    Float TraceLensesFromFilm(const Ray &rCamera, Ray *rOut,
+                              SampledWavelengths *lambda) const;
 
     PBRT_CPU_GPU
     static bool IntersectSphericalElement(Float radius, Float zCenter, const Ray &ray,
@@ -584,8 +586,8 @@ class RealisticCamera : public CameraBase {
     pstd::vector<Bounds2f> exitPupilBounds;
 };
 
-PBRT_CPU_GPU inline pstd::optional<CameraRay> Camera::GenerateRay(CameraSample sample,
-                                                     SampledWavelengths &lambda) const {
+PBRT_CPU_GPU inline pstd::optional<CameraRay> Camera::GenerateRay(
+    CameraSample sample, SampledWavelengths &lambda) const {
     auto generate = [&](auto ptr) { return ptr->GenerateRay(sample, lambda); };
     return Dispatch(generate);
 }
@@ -608,8 +610,8 @@ PBRT_CPU_GPU inline const CameraTransform &Camera::GetCameraTransform() const {
 }
 
 PBRT_CPU_GPU inline void Camera::Approximate_dp_dxy(Point3f p, Normal3f n, Float time,
-                                       int samplesPerPixel, Vector3f *dpdx,
-                                       Vector3f *dpdy) const {
+                                                    int samplesPerPixel, Vector3f *dpdx,
+                                                    Vector3f *dpdy) const {
     if constexpr (AllInheritFrom<CameraBase>(Camera::Types())) {
         return ((const CameraBase *)ptr())
             ->Approximate_dp_dxy(p, n, time, samplesPerPixel, dpdx, dpdy);
