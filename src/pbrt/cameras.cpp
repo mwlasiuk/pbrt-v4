@@ -20,6 +20,7 @@
 #include <pbrt/util/stats.h>
 
 #include <algorithm>
+#include <iostream>
 
 namespace pbrt {
 
@@ -69,7 +70,7 @@ PBRT_CPU_GPU pstd::optional<CameraRayDifferential> Camera::GenerateRayDifferenti
 }
 
 PBRT_CPU_GPU SampledSpectrum Camera::We(const Ray &ray, SampledWavelengths &lambda,
-                           Point2f *pRaster2) const {
+                                        Point2f *pRaster2) const {
     auto we = [&](auto ptr) { return ptr->We(ray, lambda, pRaster2); };
     return Dispatch(we);
 }
@@ -79,8 +80,8 @@ PBRT_CPU_GPU void Camera::PDF_We(const Ray &ray, Float *pdfPos, Float *pdfDir) c
     return Dispatch(pdf);
 }
 
-PBRT_CPU_GPU pstd::optional<CameraWiSample> Camera::SampleWi(const Interaction &ref, Point2f u,
-                                                SampledWavelengths &lambda) const {
+PBRT_CPU_GPU pstd::optional<CameraWiSample> Camera::SampleWi(
+    const Interaction &ref, Point2f u, SampledWavelengths &lambda) const {
     auto sample = [&](auto ptr) { return ptr->SampleWi(ref, u, lambda); };
     return Dispatch(sample);
 }
@@ -305,8 +306,9 @@ PBRT_CPU_GPU pstd::optional<CameraRay> OrthographicCamera::GenerateRay(
     return CameraRay{RenderFromCamera(ray)};
 }
 
-PBRT_CPU_GPU pstd::optional<CameraRayDifferential> OrthographicCamera::GenerateRayDifferential(
-    CameraSample sample, SampledWavelengths &lambda) const {
+PBRT_CPU_GPU pstd::optional<CameraRayDifferential>
+OrthographicCamera::GenerateRayDifferential(CameraSample sample,
+                                            SampledWavelengths &lambda) const {
     // Compute main orthographic viewing ray
     // Compute raster and camera sample positions
     Point3f pFilm = Point3f(sample.pFilm.x, sample.pFilm.y, 0);
@@ -384,7 +386,7 @@ OrthographicCamera *OrthographicCamera::Create(const ParameterDictionary &parame
     std::vector<Float> sw = parameters.GetFloatArray("screenwindow");
     if (!sw.empty()) {
         if (Options->fullscreen) {
-                Warning("\"screenwindow\" is ignored in fullscreen mode");
+            Warning("\"screenwindow\" is ignored in fullscreen mode");
         } else {
             if (sw.size() == 4) {
                 screen.pMin.x = sw[0];
@@ -426,8 +428,9 @@ PBRT_CPU_GPU pstd::optional<CameraRay> PerspectiveCamera::GenerateRay(
     return CameraRay{RenderFromCamera(ray)};
 }
 
-PBRT_CPU_GPU pstd::optional<CameraRayDifferential> PerspectiveCamera::GenerateRayDifferential(
-    CameraSample sample, SampledWavelengths &lambda) const {
+PBRT_CPU_GPU pstd::optional<CameraRayDifferential>
+PerspectiveCamera::GenerateRayDifferential(CameraSample sample,
+                                           SampledWavelengths &lambda) const {
     // Compute raster and camera sample positions
     Point3f pFilm = Point3f(sample.pFilm.x, sample.pFilm.y, 0);
     Point3f pCamera = cameraFromRaster(pFilm);
@@ -510,7 +513,7 @@ PerspectiveCamera *PerspectiveCamera::Create(const ParameterDictionary &paramete
     std::vector<Float> sw = parameters.GetFloatArray("screenwindow");
     if (!sw.empty()) {
         if (Options->fullscreen) {
-                Warning("\"screenwindow\" is ignored in fullscreen mode");
+            Warning("\"screenwindow\" is ignored in fullscreen mode");
         } else {
             if (sw.size() == 4) {
                 screen.pMin.x = sw[0];
@@ -527,8 +530,9 @@ PerspectiveCamera *PerspectiveCamera::Create(const ParameterDictionary &paramete
                                                lensradius, focaldistance);
 }
 
-PBRT_CPU_GPU SampledSpectrum PerspectiveCamera::We(const Ray &ray, SampledWavelengths &lambda,
-                                      Point2f *pRasterOut) const {
+PBRT_CPU_GPU SampledSpectrum PerspectiveCamera::We(const Ray &ray,
+                                                   SampledWavelengths &lambda,
+                                                   Point2f *pRasterOut) const {
     // Check if ray is forward-facing with respect to the camera
     Float cosTheta = Dot(ray.d, RenderFromCamera(Vector3f(0, 0, 1), ray.time));
     if (cosTheta <= cosTotalWidth)
@@ -555,7 +559,8 @@ PBRT_CPU_GPU SampledSpectrum PerspectiveCamera::We(const Ray &ray, SampledWavele
     return SampledSpectrum(1 / (A * lensArea * Pow<4>(cosTheta)));
 }
 
-PBRT_CPU_GPU void PerspectiveCamera::PDF_We(const Ray &ray, Float *pdfPos, Float *pdfDir) const {
+PBRT_CPU_GPU void PerspectiveCamera::PDF_We(const Ray &ray, Float *pdfPos,
+                                            Float *pdfDir) const {
     // Return zero PDF values if ray direction is not front-facing
     Float cosTheta = Dot(ray.d, RenderFromCamera(Vector3f(0, 0, 1), ray.time));
     if (cosTheta <= cosTotalWidth) {
@@ -607,8 +612,8 @@ PBRT_CPU_GPU pstd::optional<CameraWiSample> PerspectiveCamera::SampleWi(
 }
 
 // SphericalCamera Method Definitions
-PBRT_CPU_GPU pstd::optional<CameraRay> SphericalCamera::GenerateRay(CameraSample sample,
-                                                       SampledWavelengths &lambda) const {
+PBRT_CPU_GPU pstd::optional<CameraRay> SphericalCamera::GenerateRay(
+    CameraSample sample, SampledWavelengths &lambda) const {
     // Compute spherical camera ray direction
     Point2f uv(sample.pFilm.x / film.FullResolution().x,
                sample.pFilm.y / film.FullResolution().y);
@@ -656,7 +661,7 @@ SphericalCamera *SphericalCamera::Create(const ParameterDictionary &parameters,
     std::vector<Float> sw = parameters.GetFloatArray("screenwindow");
     if (!sw.empty()) {
         if (Options->fullscreen) {
-                Warning("\"screenwindow\" is ignored in fullscreen mode");
+            Warning("\"screenwindow\" is ignored in fullscreen mode");
         } else {
             if (sw.size() == 4) {
                 screen.pMin.x = sw[0];
@@ -746,11 +751,15 @@ RealisticCamera::RealisticCamera(CameraBaseParameters baseParameters,
     FindMinimumDifferentials(this);
 }
 
-PBRT_CPU_GPU Float RealisticCamera::TraceLensesFromFilm(const Ray &rCamera, Ray *rOut) const {
+PBRT_CPU_GPU Float RealisticCamera::TraceLensesFromFilm(
+    const Ray &rCamera, Ray *rOut, SampledWavelengths *lambda) const {
     Float elementZ = 0, weight = 1;
     // Transform _rCamera_ from camera to lens system space
     Ray rLens(Point3f(rCamera.o.x, rCamera.o.y, -rCamera.o.z),
               Vector3f(rCamera.d.x, rCamera.d.y, -rCamera.d.z), rCamera.time);
+
+    // if (lambda)
+    //     std::cout << lambda->ToString() << std::endl;
 
     for (int i = elementInterfaces.size() - 1; i >= 0; --i) {
         const LensElementInterface &element = elementInterfaces[i];
@@ -799,7 +808,19 @@ PBRT_CPU_GPU Float RealisticCamera::TraceLensesFromFilm(const Ray &rCamera, Ray 
             Float eta_t = (i > 0 && elementInterfaces[i - 1].eta != 0)
                               ? elementInterfaces[i - 1].eta
                               : 1;
-            if (!Refract(Normalize(-rLens.d), n, eta_t / eta_i, nullptr, &w))
+
+            Float eta_n = eta_t / eta_i;
+
+            if (lambda) {
+                Float wl = (*lambda)[0] / 1000.0f;
+
+                eta_n += /*PER GLASS LAMBDA*/ 0.01420f / (wl * wl);
+            }
+            // LOG_VERBOSE(
+            //     "Tracing i = %d, eta_t = %.3f , eta_i = %.3f, eta_t / eta_i = %.f", i,
+            //     eta_t, eta_i, eta_t / eta_i);
+
+            if (!Refract(Normalize(-rLens.d), n, eta_n, nullptr, &w))
                 return 0;
             rLens.d = w;
         }
@@ -833,7 +854,7 @@ void RealisticCamera::ComputeThickLensApproximation(Float pz[2], Float fz[2]) co
 
     // Compute cardinal points for scene side of lens system
     rFilm = Ray(Point3f(x, 0, LensRearZ() - 1), Vector3f(0, 0, 1));
-    if (TraceLensesFromFilm(rFilm, &rScene) == 0)
+    if (TraceLensesFromFilm(rFilm, &rScene, nullptr) == 0)
         ErrorExit("Unable to trace ray from film to scene for thick lens "
                   "approximation. Is aperture stop extremely small?");
     ComputeCardinalPoints(rFilm, rScene, &pz[1], &fz[1]);
@@ -877,7 +898,7 @@ Bounds2f RealisticCamera::BoundExitPupil(Float filmX0, Float filmX1) const {
 
         // Expand pupil bounds if ray makes it through the lens system
         if (!Inside(Point2f(pRear.x, pRear.y), pupilBounds) &&
-            TraceLensesFromFilm(Ray(pFilm, pRear - pFilm), nullptr))
+            TraceLensesFromFilm(Ray(pFilm, pRear - pFilm), nullptr, nullptr))
             pupilBounds = Union(pupilBounds, Point2f(pRear.x, pRear.y));
     }
 
@@ -894,8 +915,8 @@ Bounds2f RealisticCamera::BoundExitPupil(Float filmX0, Float filmX1) const {
     return pupilBounds;
 }
 
-PBRT_CPU_GPU pstd::optional<ExitPupilSample> RealisticCamera::SampleExitPupil(Point2f pFilm,
-                                                                 Point2f uLens) const {
+PBRT_CPU_GPU pstd::optional<ExitPupilSample> RealisticCamera::SampleExitPupil(
+    Point2f pFilm, Point2f uLens) const {
     // Find exit pupil bound for sample distance from film center
     Float rFilm = std::sqrt(Sqr(pFilm.x) + Sqr(pFilm.y));
     int rIndex = rFilm / (film.Diagonal() / 2) * exitPupilBounds.size();
@@ -916,8 +937,8 @@ PBRT_CPU_GPU pstd::optional<ExitPupilSample> RealisticCamera::SampleExitPupil(Po
     return ExitPupilSample{pPupil, pdf};
 }
 
-PBRT_CPU_GPU pstd::optional<CameraRay> RealisticCamera::GenerateRay(CameraSample sample,
-                                                       SampledWavelengths &lambda) const {
+PBRT_CPU_GPU pstd::optional<CameraRay> RealisticCamera::GenerateRay(
+    CameraSample sample, SampledWavelengths &lambda) const {
     // Find point on film, _pFilm_, corresponding to _sample.pFilm_
     Point2f s(sample.pFilm.x / film.FullResolution().x,
               sample.pFilm.y / film.FullResolution().y);
@@ -931,7 +952,7 @@ PBRT_CPU_GPU pstd::optional<CameraRay> RealisticCamera::GenerateRay(CameraSample
         return {};
     Ray rFilm(pFilm, eps->pPupil - pFilm);
     Ray ray;
-    Float weight = TraceLensesFromFilm(rFilm, &ray);
+    Float weight = TraceLensesFromFilm(rFilm, &ray, &lambda);
     if (weight == 0)
         return {};
 
@@ -956,7 +977,8 @@ std::string RealisticCamera::LensElementInterface::ToString() const {
                         curvatureRadius, thickness, eta, apertureRadius);
 }
 
-PBRT_CPU_GPU Float RealisticCamera::TraceLensesFromScene(const Ray &rCamera, Ray *rOut) const {
+PBRT_CPU_GPU Float RealisticCamera::TraceLensesFromScene(const Ray &rCamera,
+                                                         Ray *rOut) const {
     Float elementZ = -LensFrontZ();
     // Transform _rCamera_ from camera to lens system space
     const Transform LensFromCamera = Scale(1, 1, -1);
@@ -1088,7 +1110,7 @@ void RealisticCamera::DrawRayPathFromFilm(const Ray &r, bool arrow,
     static const Transform LensFromCamera = Scale(1, 1, -1);
     Ray ray = LensFromCamera(r);
     printf("{ ");
-    if (TraceLensesFromFilm(r, nullptr) == 0) {
+    if (TraceLensesFromFilm(r, nullptr, nullptr) == 0) {
         printf("Dashed, RGBColor[.8, .5, .5]");
     } else
         printf("RGBColor[.5, .5, .8]");
@@ -1229,7 +1251,7 @@ void RealisticCamera::RenderExitPupil(Float sx, Float sy, const char *filename) 
 
             if (lx * lx + ly * ly > RearElementRadius() * RearElementRadius())
                 image.SetChannel({x, y}, 0, 1.);
-            else if (TraceLensesFromFilm(Ray(pFilm, pRear - pFilm), nullptr))
+            else if (TraceLensesFromFilm(Ray(pFilm, pRear - pFilm), nullptr, nullptr))
                 image.SetChannel({x, y}, 0, 0.5);
             else
                 image.SetChannel({x, y}, 0, 0.);
@@ -1263,7 +1285,7 @@ void RealisticCamera::TestExitPupilBounds() const {
 
         Ray testRay(pFilm, Point3f(pd.x, pd.y, 0.f) - pFilm);
         Ray testOut;
-        if (!TraceLensesFromFilm(testRay, &testOut))
+        if (!TraceLensesFromFilm(testRay, &testOut, nullptr))
             continue;
 
         if (!Inside(pd, pupilBounds)) {
