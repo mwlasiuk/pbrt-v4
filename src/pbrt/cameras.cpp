@@ -809,13 +809,20 @@ PBRT_CPU_GPU Float RealisticCamera::TraceLensesFromFilm(
                               ? elementInterfaces[i - 1].eta
                               : 1;
 
-            Float eta_n = eta_t / eta_i;
-
             if (lambda) {
                 Float wl = (*lambda)[0] / 1000.0f;
 
-                eta_n += /*PER GLASS LAMBDA*/ 0.01420f / (wl * wl);
+                if (eta_i != 1) {
+                    eta_i += /*PER GLASS LAMBDA*/ 0.00420f / (wl * wl);
+                }
+
+                if (eta_t != 1) {
+                    eta_t += /*PER GLASS LAMBDA*/ 0.00420f / (wl * wl);
+                }
             }
+
+            Float eta_n = eta_t / eta_i;
+
             // LOG_VERBOSE(
             //     "Tracing i = %d, eta_t = %.3f , eta_i = %.3f, eta_t / eta_i = %.f", i,
             //     eta_t, eta_i, eta_t / eta_i);
