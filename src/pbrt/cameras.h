@@ -482,7 +482,7 @@ class RealisticCamera : public CameraBase {
     PBRT_CPU_GPU
     pstd::optional<CameraRayDifferential> GenerateRayDifferential(
         CameraSample sample, SampledWavelengths &lambda) const {
-        lambda.TerminateSecondary();
+        lambda.TerminateSecondary();  // NOTE(mw)
         return CameraBase::GenerateRayDifferential(this, sample, lambda);
     }
 
