@@ -467,7 +467,8 @@ class RealisticCamera : public CameraBase {
   public:
     // RealisticCamera Public Methods
     RealisticCamera(CameraBaseParameters baseParameters,
-                    std::vector<Float> &lensParameters, Float focusDistance,
+                    std::vector<Float> &lensParameters,
+                    std::vector<Float> &dispersionParameters, Float focusDistance,
                     Float apertureDiameter, Image apertureImage, Allocator alloc);
 
     static RealisticCamera *Create(const ParameterDictionary &parameters,
@@ -482,7 +483,9 @@ class RealisticCamera : public CameraBase {
     PBRT_CPU_GPU
     pstd::optional<CameraRayDifferential> GenerateRayDifferential(
         CameraSample sample, SampledWavelengths &lambda) const {
-        lambda.TerminateSecondary();  // NOTE(mw)
+        if (elementDispersionInterfaces.size()) {
+            lambda.TerminateSecondary();
+        }
         return CameraBase::GenerateRayDifferential(this, sample, lambda);
     }
 
@@ -514,6 +517,19 @@ class RealisticCamera : public CameraBase {
         Float thickness;
         Float eta;
         Float apertureRadius;
+        std::string ToString() const;
+    };
+
+    struct LensElementDispersionInterface {
+        Float B1;
+        Float B2;
+        Float B3;
+        Float C1;
+        Float C2;
+        Float C3;
+
+        Float CalculateIOR(const Float wavelength) const;
+
         std::string ToString() const;
     };
 
@@ -582,6 +598,7 @@ class RealisticCamera : public CameraBase {
     // RealisticCamera Private Members
     Bounds2f physicalExtent;
     pstd::vector<LensElementInterface> elementInterfaces;
+    pstd::vector<LensElementDispersionInterface> elementDispersionInterfaces;
     Image apertureImage;
     pstd::vector<Bounds2f> exitPupilBounds;
 };
