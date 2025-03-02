@@ -24,6 +24,20 @@
 
 namespace pbrt {
 
+static Float SellmeierRefractiveIndex(const Float wavelength, const std::vector<Float> &B,
+                                      const std::vector<Float> &C) {
+    Float n_squared = 1.0;
+
+    for (size_t i = 0; i < B.size(); ++i) {
+        const Float nominator = B[i] * std::pow(wavelength, 2.0f);
+        const Float denominator = std::pow(wavelength, 2.0f) - C[i];
+
+        n_squared += (nominator / denominator);
+    }
+
+    return std::sqrt(n_squared);
+}
+
 // CameraTransform Method Definitions
 CameraTransform::CameraTransform(const AnimatedTransform &worldFromCamera) {
     switch (Options->renderingSpace) {
@@ -698,9 +712,10 @@ std::string SphericalCamera::ToString() const {
 
 // RealisticCamera Method Definitions
 RealisticCamera::RealisticCamera(CameraBaseParameters baseParameters,
-                                 std::vector<Float> &lensParameters, Float focusDistance,
-                                 Float setApertureDiameter, Image apertureImage,
-                                 Allocator alloc)
+                                 std::vector<Float> &lensParameters,
+                                 std::vector<Float> &dispersionParameters,
+                                 Float focusDistance, Float setApertureDiameter,
+                                 Image apertureImage, Allocator alloc)
     : CameraBase(baseParameters),
       elementInterfaces(alloc),
       exitPupilBounds(alloc),
@@ -735,6 +750,18 @@ RealisticCamera::RealisticCamera(CameraBaseParameters baseParameters,
             {curvatureRadius, thickness, eta, apertureDiameter / 2});
     }
 
+    // Initialize _elementDispersionInterfaces_ for camera
+    for (size_t i = 0; i < dispersionParameters.size(); i += 6) {
+        Float B1 = dispersionParameters[i + 0];
+        Float B2 = dispersionParameters[i + 1];
+        Float B3 = dispersionParameters[i + 2];
+        Float C1 = dispersionParameters[i + 3];
+        Float C2 = dispersionParameters[i + 4];
+        Float C3 = dispersionParameters[i + 5];
+
+        elementDispersionInterfaces.push_back({B1, B2, B3, C1, C2, C3});
+    }
+
     // Compute lens--film distance for given focus distance
     elementInterfaces.back().thickness = FocusThickLens(focusDistance);
 
@@ -753,13 +780,13 @@ RealisticCamera::RealisticCamera(CameraBaseParameters baseParameters,
 
 PBRT_CPU_GPU Float RealisticCamera::TraceLensesFromFilm(
     const Ray &rCamera, Ray *rOut, SampledWavelengths *lambda) const {
+    const bool hasDispersionData =
+        elementDispersionInterfaces.size() == elementInterfaces.size();
+
     Float elementZ = 0, weight = 1;
     // Transform _rCamera_ from camera to lens system space
     Ray rLens(Point3f(rCamera.o.x, rCamera.o.y, -rCamera.o.z),
               Vector3f(rCamera.d.x, rCamera.d.y, -rCamera.d.z), rCamera.time);
-
-    // if (lambda)
-    //     std::cout << lambda->ToString() << std::endl;
 
     for (int i = elementInterfaces.size() - 1; i >= 0; --i) {
         const LensElementInterface &element = elementInterfaces[i];
@@ -803,29 +830,31 @@ PBRT_CPU_GPU Float RealisticCamera::TraceLensesFromFilm(
 
         // Update ray path for element interface interaction
         if (!isStop) {
+            static const LensElementDispersionInterface coefficientsZeroB = {
+                0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+            static const LensElementDispersionInterface coefficientsZeroC = {
+                0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+
+            const bool nextElementValid = (i > 0 && elementInterfaces[i - 1].eta != 0);
+
             Vector3f w;
             Float eta_i = element.eta;
-            Float eta_t = (i > 0 && elementInterfaces[i - 1].eta != 0)
-                              ? elementInterfaces[i - 1].eta
-                              : 1;
+            Float eta_t = nextElementValid ? elementInterfaces[i - 1].eta : 1;
 
-            if (lambda) {
-                Float wl = (*lambda)[0] / 1000.0f;
+            if (lambda && hasDispersionData) {
+                Float wavelength = (*lambda)[0] / 1000.0f;
 
-                if (eta_i != 1) {
-                    eta_i += /*PER GLASS LAMBDA*/ 0.00420f / (wl * wl);
-                }
+                const LensElementDispersionInterface &coefficients_i =
+                    elementDispersionInterfaces[i];
+                const LensElementDispersionInterface &coefficients_t =
+                    nextElementValid ? elementDispersionInterfaces[i - 1]
+                                     : coefficientsZeroB;
 
-                if (eta_t != 1) {
-                    eta_t += /*PER GLASS LAMBDA*/ 0.00420f / (wl * wl);
-                }
+                eta_i = coefficients_i.CalculateIOR(wavelength);
+                eta_t = coefficients_t.CalculateIOR(wavelength);
             }
 
             Float eta_n = eta_t / eta_i;
-
-            // LOG_VERBOSE(
-            //     "Tracing i = %d, eta_t = %.3f , eta_i = %.3f, eta_t / eta_i = %.f", i,
-            //     eta_t, eta_i, eta_t / eta_i);
 
             if (!Refract(Normalize(-rLens.d), n, eta_n, nullptr, &w))
                 return 0;
@@ -982,6 +1011,34 @@ std::string RealisticCamera::LensElementInterface::ToString() const {
     return StringPrintf("[ LensElementInterface curvatureRadius: %f thickness: %f "
                         "eta: %f apertureRadius: %f ]",
                         curvatureRadius, thickness, eta, apertureRadius);
+}
+
+Float RealisticCamera::LensElementDispersionInterface::CalculateIOR(
+    const Float wavelength) const {
+    Float n_squared = 1.0;
+
+    const Float wavelength_squared = std::pow(wavelength, 2.0f);
+
+    const Float nominator1 = B1 * wavelength_squared;
+    const Float denominator1 = wavelength_squared - C1;
+
+    const Float nominator2 = B2 * wavelength_squared;
+    const Float denominator2 = wavelength_squared - C2;
+
+    const Float nominator3 = B3 * wavelength_squared;
+    const Float denominator3 = wavelength_squared - C3;
+
+    n_squared += nominator1 / denominator1;
+    n_squared += nominator2 / denominator2;
+    n_squared += nominator3 / denominator3;
+
+    return std::sqrt(n_squared);
+}
+
+std::string RealisticCamera::LensElementDispersionInterface::ToString() const {
+    return StringPrintf(
+        "[ LensElementDispersionInterface B1: %f B2: %f B3: %f C1: %f C2: %f C3: %f ]",
+        B1, B2, B3, C1, C2, C3);
 }
 
 PBRT_CPU_GPU Float RealisticCamera::TraceLensesFromScene(const Ray &rCamera,
@@ -1329,6 +1386,8 @@ RealisticCamera *RealisticCamera::Create(const ParameterDictionary &parameters,
 
     // Realistic camera-specific parameters
     std::string lensFile = ResolveFilename(parameters.GetOneString("lensfile", ""));
+    std::string dispersionFile =
+        ResolveFilename(parameters.GetOneString("dispersion", ""));
     Float apertureDiameter = parameters.GetOneFloat("aperturediameter", 1.0);
     Float focusDistance = parameters.GetOneFloat("focusdistance", 10.0);
 
@@ -1348,6 +1407,20 @@ RealisticCamera *RealisticCamera::Create(const ParameterDictionary &parameters,
               "must be multiple-of-four values, read %d.",
               lensFile, (int)lensParameters.size());
         return nullptr;
+    }
+
+    std::vector<Float> dispersionParameters = {};
+
+    if (!dispersionFile.empty()) {
+        dispersionParameters = ReadFloatFile(dispersionFile);
+
+        if (dispersionParameters.size() % 6 != 0) {
+            Error(loc,
+                  "%s: excess values in lens specification file; "
+                  "must be multiple-of-six values, read %d.",
+                  dispersionFile, (int)dispersionParameters.size());
+            return nullptr;
+        }
     }
 
     int builtinRes = 256;
@@ -1464,9 +1537,9 @@ RealisticCamera *RealisticCamera::Create(const ParameterDictionary &parameters,
         }
     }
 
-    return alloc.new_object<RealisticCamera>(cameraBaseParameters, lensParameters,
-                                             focusDistance, apertureDiameter,
-                                             std::move(apertureImage), alloc);
+    return alloc.new_object<RealisticCamera>(
+        cameraBaseParameters, lensParameters, dispersionParameters, focusDistance,
+        apertureDiameter, std::move(apertureImage), alloc);
 }
 
 }  // namespace pbrt

@@ -4,7 +4,7 @@ Film "rgb"
     "string filename" [ "pbrt.exr" ]
 
 Sampler "zsobol"
-    "integer pixelsamples" [ 1024 ]
+    "integer pixelsamples" [ 128 ]
 
 Integrator "sppm"
     "integer maxdepth" [ 32 ]
@@ -19,8 +19,8 @@ Translate -2 0 -5
 Translate 0 0 0
 
 Camera "realistic"
-    "string lensfile" [ "../../pbrt-v4-scenes/lenses/wide.22mm.dat" ]
-    #"string lensfile" [ "lenses/lens.dat" ]
+    "string lensfile" [ "lenses/wide.dat" ]
+    "string dispersion" [ "lenses/sellmeier.dat" ]
     "float focusdistance" [ 5.0 ]
     "float aperturediameter" [ 6.0 ]
 
@@ -56,7 +56,8 @@ AttributeBegin
     Rotate 180 0 1 0
     Rotate 10 1 0 0
     LightSource "projection"
-        "float scale" [ 500 ]
+        "float scale" [ 1 ]
+        "float power" [ 128 ]
         "float fov" [ 20 ]
         "string filename" [ "textures/check.png" ]
 AttributeEnd
@@ -64,7 +65,7 @@ AttributeEnd
 AttributeBegin
     LightSource "infinite"
         "blackbody L" [ 4000 ]
-        "float scale" [ 0.5 ]
+        "float scale" [ 4 ]
 AttributeEnd
 
 MakeNamedMaterial "/mat/pbrt_material_dieletric1"
