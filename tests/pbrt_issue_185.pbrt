@@ -4,12 +4,12 @@ Film "rgb"
     "string filename" [ "pbrt.exr" ]
 
 Sampler "zsobol"
-    "integer pixelsamples" [ 128 ]
+    "integer pixelsamples" [ 2048 ]
 
-Integrator "sppm"
-    "integer maxdepth" [ 32 ]
-    "float radius" [ 0.1 ]
-    "integer photonsperiteration" [ -1 ]
+Integrator "path"
+    # "integer maxdepth" [ 32 ]
+    # "float radius" [ 0.1 ]
+    # "integer photonsperiteration" [ -1 ]
 
 Accelerator "bvh"
 
@@ -19,6 +19,8 @@ Translate -2 0 -5
 Translate 0 0 0
 
 Camera "realistic"
+    # "string lensfile" [ "../pbrt-v4-scenes/lenses/dgauss.50mm.dat" ]
+    # "string lensfile" [ "../pbrt-v4-scenes/lenses/fisheye.10mm.dat" ]
     "string lensfile" [ "lenses/wide.dat" ]
     "string dispersion" [ "lenses/sellmeier.dat" ]
     "float focusdistance" [ 5.0 ]

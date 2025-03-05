@@ -830,9 +830,7 @@ PBRT_CPU_GPU Float RealisticCamera::TraceLensesFromFilm(
 
         // Update ray path for element interface interaction
         if (!isStop) {
-            static const LensElementDispersionInterface coefficientsZeroB = {
-                0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
-            static const LensElementDispersionInterface coefficientsZeroC = {
+            static const LensElementDispersionInterface coefficientsZero = {
                 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
 
             const bool nextElementValid = (i > 0 && elementInterfaces[i - 1].eta != 0);
@@ -841,14 +839,18 @@ PBRT_CPU_GPU Float RealisticCamera::TraceLensesFromFilm(
             Float eta_i = element.eta;
             Float eta_t = nextElementValid ? elementInterfaces[i - 1].eta : 1;
 
-            if (lambda && hasDispersionData) {
-                Float wavelength = (*lambda)[0] / 1000.0f;
+            if (hasDispersionData) {
+                Float wavelength = 589.3f / 1000.0f;
+
+                if (lambda) {
+                    wavelength = (*lambda)[0] / 1000.0f;
+                }
 
                 const LensElementDispersionInterface &coefficients_i =
                     elementDispersionInterfaces[i];
                 const LensElementDispersionInterface &coefficients_t =
                     nextElementValid ? elementDispersionInterfaces[i - 1]
-                                     : coefficientsZeroB;
+                                     : coefficientsZero;
 
                 eta_i = coefficients_i.CalculateIOR(wavelength);
                 eta_t = coefficients_t.CalculateIOR(wavelength);
@@ -1043,6 +1045,9 @@ std::string RealisticCamera::LensElementDispersionInterface::ToString() const {
 
 PBRT_CPU_GPU Float RealisticCamera::TraceLensesFromScene(const Ray &rCamera,
                                                          Ray *rOut) const {
+    const bool hasDispersionData =
+        elementDispersionInterfaces.size() == elementInterfaces.size();
+
     Float elementZ = -LensFrontZ();
     // Transform _rCamera_ from camera to lens system space
     const Transform LensFromCamera = Scale(1, 1, -1);
@@ -1074,12 +1079,32 @@ PBRT_CPU_GPU Float RealisticCamera::TraceLensesFromScene(const Ray &rCamera,
 
         // Update ray path for from-scene element interface interaction
         if (!isStop) {
+            static const LensElementDispersionInterface coefficientsZero = {
+                0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+
+            const bool i_valid = !(i == 0 || elementInterfaces[i - 1].eta == 0);
+            const bool t_valid = elementInterfaces[i].eta != 0;
+
+            Vector3f w;
+            Float eta_i = i_valid ? elementInterfaces[i - 1].eta : 1;
+            Float eta_t = t_valid ? elementInterfaces[i].eta : 1;
+
+            if (hasDispersionData) {
+                Float wavelength = 589.3f / 1000.0f;
+
+                const LensElementDispersionInterface &coefficients_i =
+                    i_valid ? elementDispersionInterfaces[i - 1] : coefficientsZero;
+                const LensElementDispersionInterface &coefficients_t =
+                    t_valid ? elementDispersionInterfaces[i] : coefficientsZero;
+
+                eta_i = coefficients_i.CalculateIOR(wavelength);
+                eta_t = coefficients_t.CalculateIOR(wavelength);
+            }
+
+            Float eta_n = eta_t / eta_i;
+
             Vector3f wt;
-            Float eta_i = (i == 0 || elementInterfaces[i - 1].eta == 0)
-                              ? 1
-                              : elementInterfaces[i - 1].eta;
-            Float eta_t = (elementInterfaces[i].eta != 0) ? elementInterfaces[i].eta : 1;
-            if (!Refract(Normalize(-rLens.d), n, eta_t / eta_i, nullptr, &wt))
+            if (!Refract(Normalize(-rLens.d), n, eta_n, nullptr, &wt))
                 return 0;
             rLens.d = wt;
         }
