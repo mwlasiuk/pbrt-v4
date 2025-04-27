@@ -1,0 +1,97 @@
+Include "scanner-simulation/include/cameras/film-2592-1944.pbrt"
+    "string filename" [ "out/MultiSphere/3.png" ]
+
+Include "scanner-simulation/include/path_tracing_settings.pbrt"
+Include "scanner-simulation/include/camera.pbrt"
+
+WorldBegin
+
+Include "scanner-simulation/include/materials.pbrt"
+Include "scanner-simulation/include/sphere.pbrt"
+
+AttributeBegin
+    Include "scanner-simulation/include/projector_pose.pbrt"
+    Include "scanner-simulation/include/projector_parameters.pbrt" 
+    "string filename" [ "scanner-simulation/projector_images/vga/sine_patterns/3.png" ]
+AttributeEnd
+
+AttributeBegin
+    Translate -0.15 -0.1 0.09
+    Rotate 0 1 0 0
+    Rotate 0 0 1 0
+    Rotate 0 0 0 1
+    Scale 0.075 0.075 0.075
+    ObjectInstance "obj/sphere"
+AttributeEnd
+
+AttributeBegin
+    Translate 0.0 -0.1 0.09
+    Rotate 0 1 0 0
+    Rotate 0 0 1 0
+    Rotate 0 0 0 1
+    Scale 0.075 0.075 0.075
+    ObjectInstance "obj/sphere"
+AttributeEnd
+
+AttributeBegin
+    Translate 0.15 -0.1 0.09
+    Rotate 0 1 0 0
+    Rotate 0 0 1 0
+    Rotate 0 0 0 1
+    Scale 0.075 0.075 0.075
+    ObjectInstance "obj/sphere"
+AttributeEnd
+
+AttributeBegin
+    Translate -0.15 0.0 0.09
+    Rotate 0 1 0 0
+    Rotate 0 0 1 0
+    Rotate 0 0 0 1
+    Scale 0.075 0.075 0.075
+    ObjectInstance "obj/sphere"
+AttributeEnd
+
+AttributeBegin
+    Translate 0.0 0.0 0.09
+    Rotate 0 1 0 0
+    Rotate 0 0 1 0
+    Rotate 0 0 0 1
+    Scale 0.075 0.075 0.075
+    ObjectInstance "obj/sphere"
+AttributeEnd
+
+AttributeBegin
+    Translate 0.15 0.0 0.09
+    Rotate 0 1 0 0
+    Rotate 0 0 1 0
+    Rotate 0 0 0 1
+    Scale 0.075 0.075 0.075
+    ObjectInstance "obj/sphere"
+AttributeEnd
+
+AttributeBegin
+    Translate -0.15 0.1 0.09
+    Rotate 0 1 0 0
+    Rotate 0 0 1 0
+    Rotate 0 0 0 1
+    Scale 0.075 0.075 0.075
+    ObjectInstance "obj/sphere"
+AttributeEnd
+
+AttributeBegin
+    Translate 0.0 0.1 0.09
+    Rotate 0 1 0 0
+    Rotate 0 0 1 0
+    Rotate 0 0 0 1
+    Scale 0.075 0.075 0.075
+    ObjectInstance "obj/sphere"
+AttributeEnd
+
+AttributeBegin
+    Translate 0.15 0.1 0.09
+    Rotate 0 1 0 0
+    Rotate 0 0 1 0
+    Rotate 0 0 0 1
+    Scale 0.075 0.075 0.075
+    ObjectInstance "obj/sphere"
+AttributeEnd

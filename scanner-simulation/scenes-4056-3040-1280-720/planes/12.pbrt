@@ -1,0 +1,44 @@
+Include "scanner-simulation/include/cameras/film-4056-3040.pbrt"
+    "string filename" [ "out/Planes/12.png" ]
+
+Include "scanner-simulation/include/path_tracing_settings.pbrt"
+Include "scanner-simulation/include/camera.pbrt"
+
+WorldBegin
+
+Include "scanner-simulation/include/materials.pbrt"
+Include "scanner-simulation/include/plane.pbrt"
+
+AttributeBegin
+    Include "scanner-simulation/include/projector_pose.pbrt"
+    Include "scanner-simulation/include/projector_parameters.pbrt" 
+    "string filename" [ "scanner-simulation/projector_images/hd/gray_patterns/6.png" ]
+    "string filter" ["nearest"]
+AttributeEnd
+
+AttributeBegin
+    Translate 0.0 -0.125 0.07
+    Rotate 0 1 0 0
+    Rotate 0 0 1 0
+    Rotate 0 0 0 1
+    Scale 1.0 0.1 1.0
+    ObjectInstance "obj/plane-gray"
+AttributeEnd
+
+AttributeBegin
+    Translate 0.0 0.0 0.12
+    Rotate 0 1 0 0
+    Rotate 0 0 1 0
+    Rotate 0 0 0 1
+    Scale 1.0 0.1 1.0
+    ObjectInstance "obj/plane-gray"
+AttributeEnd
+
+AttributeBegin
+    Translate 0.0 0.125 0.17
+    Rotate 0 1 0 0
+    Rotate 0 0 1 0
+    Rotate 0 0 0 1
+    Scale 1.0 0.1 1.0
+    ObjectInstance "obj/plane-gray"
+AttributeEnd

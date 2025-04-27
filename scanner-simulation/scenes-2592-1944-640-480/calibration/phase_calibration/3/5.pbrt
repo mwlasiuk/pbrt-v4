@@ -1,0 +1,24 @@
+Include "scanner-simulation/include/cameras/film-2592-1944.pbrt"
+    "string filename" [ "out/_2_PhaseCalculationImages/PMI_ModelPos_3_Detector_0_Image_05.png" ]
+
+Include "scanner-simulation/include/path_tracing_settings.pbrt"
+Include "scanner-simulation/include/camera.pbrt"
+
+WorldBegin
+
+Include "scanner-simulation/include/materials.pbrt"
+Include "scanner-simulation/include/board.pbrt"
+
+AttributeBegin
+    Include "scanner-simulation/include/projector_pose.pbrt"
+    Include "scanner-simulation/include/projector_parameters.pbrt" 
+    "string filename" [ "scanner-simulation/projector_images/vga/sine_patterns/5.png" ]
+AttributeEnd
+
+AttributeBegin
+    Translate 0.0 0.0 0.180
+    Rotate 0 1 0 0
+    Rotate 0 0 1 0
+    Rotate 0 0 0 1
+    ObjectInstance "obj/calibration-board"
+AttributeEnd

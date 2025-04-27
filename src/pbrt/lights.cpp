@@ -281,11 +281,12 @@ STAT_MEMORY_COUNTER("Memory/Light image and distributions", imageBytes);
 ProjectionLight::ProjectionLight(Transform renderFromLight,
                                  MediumInterface mediumInterface, Image im,
                                  const RGBColorSpace *imageColorSpace, Float scale,
-                                 Float fov, Allocator alloc)
+                                 Float fov, Allocator alloc, FilterMode filter_mode)
     : LightBase(LightType::DeltaPosition, renderFromLight, mediumInterface),
       image(std::move(im)),
       imageColorSpace(imageColorSpace),
       scale(scale),
+      filter_mode(filter_mode),
       distrib(alloc) {
     // _ProjectionLight_ constructor implementation
     // Initialize _ProjectionLight_ projection matrix
@@ -351,8 +352,13 @@ PBRT_CPU_GPU SampledSpectrum ProjectionLight::I(Vector3f w, const SampledWavelen
         return SampledSpectrum(0.f);
     Point2f uv = Point2f(screenBounds.Offset(Point2f(ps.x, ps.y)));
     RGB rgb;
-    for (int c = 0; c < 3; ++c)
-        rgb[c] = image.LookupNearestChannel(uv, c);
+    for (int c = 0; c < 3; ++c){
+        if(filter_mode == FilterMode::FM_BILERP) {
+            rgb[c] = image.BilerpChannel(uv, c);
+        } else {
+            rgb[c] = image.LookupNearestChannel(uv, c);
+        }
+    }    
 
     // Return scaled wavelength samples corresponding to RGB
     RGBIlluminantSpectrum s(*imageColorSpace, ClampZero(rgb));
@@ -416,8 +422,14 @@ PBRT_CPU_GPU pstd::optional<LightLeSample> ProjectionLight::SampleLe(Point2f u1,
     // Compute radiance and return projection light sample
     Point2f p = Point2f(screenBounds.Offset(ps));
     RGB rgb;
-    for (int c = 0; c < 3; ++c)
-        rgb[c] = image.LookupNearestChannel(p, c);
+    for (int c = 0; c < 3; ++c){
+        if(filter_mode == FilterMode::FM_BILERP) {
+            rgb[c] = image.BilerpChannel(p, c);
+        } else {
+            rgb[c] = image.LookupNearestChannel(p, c);
+        }
+    }
+
     SampledSpectrum L =
         scale * RGBIlluminantSpectrum(*imageColorSpace, rgb).Sample(lambda);
     Ray ray = renderFromLight(
@@ -451,6 +463,18 @@ ProjectionLight *ProjectionLight::Create(const Transform &renderFromLight, Mediu
     Float scale = parameters.GetOneFloat("scale", 1);
     Float power = parameters.GetOneFloat("power", -1);
     Float fov = parameters.GetOneFloat("fov", 90.);
+
+    std::string filter = parameters.GetOneString("filter", "bilerp");
+
+    FilterMode filter_mode = FilterMode::FM_INVALID;
+
+    if(filter == "nearest") {
+        filter_mode = FilterMode::FM_NEAREST;
+    } else if(filter == "bilerp") {
+        filter_mode = FilterMode::FM_BILERP;
+    } else {
+        ErrorExit(loc, "Wrong ProjectionLight texture FilterMode.");
+    }
 
     std::string texname = ResolveFilename(parameters.GetOneString("filename", ""));
     if (texname.empty())
@@ -514,7 +538,7 @@ ProjectionLight *ProjectionLight::Create(const Transform &renderFromLight, Mediu
     Transform renderFromLightFlipY = renderFromLight * flip;
 
     return alloc.new_object<ProjectionLight>(
-        renderFromLightFlipY, medium, std::move(image), colorSpace, scale, fov, alloc);
+        renderFromLightFlipY, medium, std::move(image), colorSpace, scale, fov, alloc, filter_mode);
 }
 
 // GoniometricLight Method Definitions

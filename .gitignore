@@ -6,3 +6,9 @@ src/build
 .ipynb_checkpoints/
 *build*/
 .cache/
+
+.vscode
+
+out*
+
+pbrt-v4-scenes

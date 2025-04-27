@@ -1,0 +1,35 @@
+Include "scanner-simulation/include/cameras/film-5184-3456.pbrt"
+    "string filename" [ "out/RealFace/8.png" ]
+
+Include "scanner-simulation/include/path_tracing_settings.pbrt"
+Include "scanner-simulation/include/camera.pbrt"
+
+WorldBegin
+
+AttributeBegin
+    Include "scanner-simulation/include/projector_pose.pbrt"
+    Include "scanner-simulation/include/projector_parameters.pbrt" 
+    "string filename" [ "scanner-simulation/projector_images/fhd/gray_patterns/2.png" ]
+    "string filter" ["nearest"]
+AttributeEnd
+
+
+AttributeBegin
+    Translate 0.0 0 0.1
+    Rotate 0 1 0 0
+    Rotate 0 0 1 0
+    Rotate 0 0 0 1
+    Scale 1 1 1
+    
+    Texture "albedomap" "spectrum" "imagemap"
+        "string filename" [ "pbrt-v4-scenes/head/textures/head_albedomap.png" ]
+    Material "subsurface"
+        "bool remaproughness" [ false ]
+        "float vroughness" [ 0.05 ]
+        "float uroughness" [ 0.05 ]
+        "float eta" [ 1.33 ]
+        "texture reflectance" [ "albedomap" ]
+        "rgb mfp" [ 0.0012953 0.00095238 0.00067114 ]
+    Shape "plymesh"
+        "string filename" [ "pbrt-v4-scenes/head/geometry/head.ply" ]
+AttributeEnd

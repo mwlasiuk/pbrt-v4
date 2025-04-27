@@ -1,0 +1,35 @@
+Include "scanner-simulation/include/cameras/film-4056-3040.pbrt"
+    "string filename" [ "out/Ganesha/7.png" ]
+
+Include "scanner-simulation/include/path_tracing_settings.pbrt"
+Include "scanner-simulation/include/camera.pbrt"
+
+WorldBegin
+
+AttributeBegin
+    Include "scanner-simulation/include/projector_pose.pbrt"
+    Include "scanner-simulation/include/projector_parameters.pbrt" 
+    "string filename" [ "scanner-simulation/projector_images/fhd/gray_patterns/1.png" ]
+    "string filter" ["nearest"]
+AttributeEnd
+
+AttributeBegin
+    Translate -1.1 0.0 0.0
+    Rotate 0 1 0 0
+    Rotate 0 0 1 0
+    Rotate 0 0 0 1
+    Scale 0.0033 0.0033 0.0033
+
+    Texture "tmap" "spectrum" "imagemap"
+        "string filename" [ "pbrt-v4-scenes/ganesha/textures/ganesha.png" ]
+
+    AttributeBegin
+        Material "coateddiffuse"
+            "bool remaproughness" [ false ]
+            "float vroughness" [ 0.01 ]
+            "float uroughness" [ 0.01 ]
+            "texture reflectance" [ "tmap" ]
+        Shape "plymesh"
+            "string filename" [ "pbrt-v4-scenes/ganesha/geometry/ganesha.ply.gz" ]
+    AttributeEnd
+AttributeEnd

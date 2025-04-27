@@ -271,6 +271,11 @@ of CUDA installed, please update your PATH.")
                              RESULT_VARIABLE CUDA_RETURN_CODE
                              OUTPUT_VARIABLE CHECK_CUDA_OUTPUT)
 
+            if (${CUDA_RETURN_CODE} EQUAL 0)
+              #set(CHECK_CUDA_OUTPUT sm_80)
+              #message (STATUS "NOTE(mwlasiuk) : manually overriding CUDA architecture with ${CHECK_CUDA_OUTPUT}")
+            endif()
+
             if (NOT ${CUDA_RETURN_CODE} EQUAL 0)
                 message (SEND_ERROR ${CHECK_CUDA_OUTPUT})
               else ()

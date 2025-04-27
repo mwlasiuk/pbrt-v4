@@ -1,0 +1,45 @@
+Include "scanner-simulation/include/cameras/film-4056-3040.pbrt"
+    "string filename" [ "out/LTE-orb/12.png" ]
+
+Include "scanner-simulation/include/path_tracing_settings.pbrt"
+Include "scanner-simulation/include/camera.pbrt"
+
+WorldBegin
+
+AttributeBegin
+    Include "scanner-simulation/include/projector_pose.pbrt"
+    Include "scanner-simulation/include/projector_parameters.pbrt" 
+    "string filename" [ "scanner-simulation/projector_images/fhd/gray_patterns/6.png" ]
+    "string filter" ["nearest"]
+AttributeEnd
+
+AttributeBegin
+    Translate 0.0 -0.1 -0.1
+    Rotate 7.5 1 0 0
+    Rotate 180 0 1 0
+    Rotate 0 0 0 1
+    Scale 1 1 1
+
+    MakeNamedMaterial "Material"
+        "string type" [ "measured" ]
+        "string filename" [ "pbrt-v4-scenes/lte-orb/bsdfs/cc_blue_agat_spec.bsdf" ]
+    
+    # inner sphere
+    AttributeBegin
+        NamedMaterial "Material"
+        Shape "plymesh" "string filename" "pbrt-v4-scenes/lte-orb/geometry/mesh-0.ply.gz"
+    AttributeEnd
+
+    # base
+    AttributeBegin
+        NamedMaterial "Material"
+    #    Rotate 180 0 1 0
+        Shape "plymesh" "string filename" "pbrt-v4-scenes/lte-orb/geometry/mesh-1.ply.gz"
+    AttributeEnd
+
+    # outer sphere
+    AttributeBegin
+        NamedMaterial "Material"
+        Shape "plymesh" "string filename" "pbrt-v4-scenes/lte-orb/geometry/mesh-2.ply.gz"
+    AttributeEnd
+AttributeEnd

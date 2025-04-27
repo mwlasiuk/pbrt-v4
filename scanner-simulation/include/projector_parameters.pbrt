@@ -1,0 +1,21 @@
+LightSource "infinite" 
+    ### PERSPECTIVE
+    # "float scale" [ 0.01 ]
+
+    ### REALISTIC
+    "float scale" [ 1.0 ]
+
+    ### COMMON
+    "rgb L" [ 1.0 1.0 1.0 ]
+
+LightSource "projection"
+    ### PERSPECTIVE
+    # "float scale" [ 0.5 ]
+    # "float power" [ 0.5 ]
+
+    ### REALISTIC
+    "float scale" [ 2.5 ]
+    "float power" [ 32.0 ]
+
+    ### COMMON
+    "float fov" [ 20.0 ]

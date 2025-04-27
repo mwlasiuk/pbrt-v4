@@ -299,10 +299,17 @@ class DistantLight : public LightBase {
 // ProjectionLight Definition
 class ProjectionLight : public LightBase {
   public:
+    enum class FilterMode
+    {
+        FM_INVALID,
+        FM_NEAREST,
+        FM_BILERP
+    };
+  public:
     // ProjectionLight Public Methods
     ProjectionLight(Transform renderFromLight, MediumInterface medium, Image image,
                     const RGBColorSpace *colorSpace, Float scale, Float fov,
-                    Allocator alloc);
+                    Allocator alloc, FilterMode filter_mode = FilterMode::FM_INVALID);
 
     static ProjectionLight *Create(const Transform &renderFromLight, Medium medium,
                                    const ParameterDictionary &parameters,
@@ -347,6 +354,7 @@ class ProjectionLight : public LightBase {
     Transform screenFromLight, lightFromScreen;
     Float A;
     PiecewiseConstant2D distrib;
+    FilterMode filter_mode = FilterMode::FM_INVALID;
 };
 
 // GoniometricLight Definition

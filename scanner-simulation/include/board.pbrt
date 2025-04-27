@@ -1,0 +1,221 @@
+ObjectBegin "obj/calibration-board"
+    AttributeBegin
+        Scale 1.0 1.0 1.0
+        NamedMaterial "mat/diffuse-gray"
+        Shape "bilinearmesh"
+            "integer indices" [ 0 1 2 3 ]
+            "point2 uv" [ 0 0 0 1 1 0 1 1 ]
+            "point3 P" [ -0.5 -0.5 0 -0.5 0.5 0 0.5 -0.5 0 0.5 0.5 0 ]
+            "normal N" [ 0 0 1 0 0 1 0 0 1 0 0 1]
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate -0.165 -0.110  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate -0.165 -0.055  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate -0.165  0.0    0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate -0.165  0.055  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate -0.165  0.110  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate -0.110 -0.110  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate -0.110 -0.055  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate -0.110  0.0    0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate -0.110  0.055  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate -0.110  0.110  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate -0.055 -0.110  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate -0.055 -0.055  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate -0.055  0.0    0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate -0.055  0.055  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate -0.055  0.110  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate 0.0    -0.110  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate 0.0    -0.055  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate 0.0     0.0    0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate 0.0     0.055  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate 0.0     0.110  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate 0.055  -0.110  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate 0.055  -0.055  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate 0.055   0.0    0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate 0.055   0.055  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate 0.055   0.110  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate 0.110  -0.110  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate 0.110  -0.055  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate 0.110   0.0    0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate 0.110   0.055  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate 0.110   0.110  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate 0.165  -0.110  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate 0.165  -0.055  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate 0.165   0.0    0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate 0.165   0.055  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+
+    AttributeBegin 
+        NamedMaterial "mat/diffuse-black" 
+        Translate 0.165   0.110  0.00001 
+        Shape "disk" "float radius" 0.01
+    AttributeEnd
+ObjectEnd

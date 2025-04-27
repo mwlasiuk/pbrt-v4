@@ -1,0 +1,3 @@
+find . -name '*.png' -type f -exec bash -c 'convert "$0" "${0%.png}.bmp"' {} \; && mkdir __png && mv *.png __png
+
+cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM="3.5" -DCMAKE_TOOLCHAIN_FILE="C:\Users\michal\Desktop\code\vcpkg\scripts\buildsystems\vcpkg.cmake"

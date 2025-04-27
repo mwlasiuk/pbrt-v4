@@ -1,0 +1,29 @@
+Include "scanner-simulation/include/cameras/film-4056-3040.pbrt"
+    "string filename" [ "out/Killeroos/12.png" ]
+
+Include "scanner-simulation/include/path_tracing_settings.pbrt"
+Include "scanner-simulation/include/camera.pbrt"
+
+WorldBegin
+
+AttributeBegin
+    Include "scanner-simulation/include/projector_pose.pbrt"
+    Include "scanner-simulation/include/projector_parameters.pbrt" 
+    "string filename" [ "scanner-simulation/projector_images/fhd/gray_patterns/6.png" ]
+    "string filter" ["nearest"]
+AttributeEnd
+
+AttributeBegin
+    Translate 0.0 0.0 0.0
+    Rotate 90 1 0 0
+    Rotate 180 0 1 0
+    Rotate 90 0 0 1
+    Scale 0.001 0.001 0.001
+
+    Material "coateddiffuse"
+        "float roughness" [ 0.15 ]
+        "rgb reflectance" [ 0.4 0.5 0.4 ]
+
+    Include "pbrt-v4-scenes/killeroos/geometry/killeroo.pbrt"
+AttributeEnd
+

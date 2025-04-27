@@ -1,0 +1,4 @@
+Film "rgb"
+    "float diagonal" [ 35 ]
+    "integer xresolution" [ 5184 ]
+    "integer yresolution" [ 3456 ]

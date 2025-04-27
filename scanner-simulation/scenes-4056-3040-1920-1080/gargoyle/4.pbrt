@@ -1,0 +1,27 @@
+Include "scanner-simulation/include/cameras/film-4056-3040.pbrt"
+    "string filename" [ "out/Gargoyle/4.png" ]
+
+Include "scanner-simulation/include/path_tracing_settings.pbrt"
+Include "scanner-simulation/include/camera.pbrt"
+
+WorldBegin
+
+AttributeBegin
+    Include "scanner-simulation/include/projector_pose.pbrt"
+    Include "scanner-simulation/include/projector_parameters.pbrt" 
+    "string filename" [ "scanner-simulation/projector_images/fhd/sine_patterns/4.png" ]
+AttributeEnd
+
+
+AttributeBegin
+    Translate 0.0 0 0.1
+    Rotate 0 1 0 0
+    Rotate 0 0 1 0
+    Rotate 0 0 0 1
+    Scale 1 1 1
+    
+    Texture "albedomap" "spectrum" "imagemap"
+        "string filename" [ "pbrt-v4-scenes/gargoyle/gargoyle.jpg" ]
+    Shape "plymesh"
+        "string filename" [ "pbrt-v4-scenes/gargoyle/gargoyle.ply.gz" ]
+AttributeEnd

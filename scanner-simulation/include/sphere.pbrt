@@ -1,0 +1,8 @@
+ObjectBegin "obj/sphere"
+    AttributeBegin
+        Scale 1.0 1.0 1.0
+        NamedMaterial "mat/diffuse-gray"
+        Shape "sphere"
+            "float radius" 0.5
+    AttributeEnd
+ObjectEnd

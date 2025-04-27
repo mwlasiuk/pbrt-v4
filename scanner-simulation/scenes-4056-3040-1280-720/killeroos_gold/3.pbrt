@@ -1,0 +1,30 @@
+Include "scanner-simulation/include/cameras/film-4056-3040.pbrt"
+    "string filename" [ "out/Killeroos_gold/3.png" ]
+
+Include "scanner-simulation/include/path_tracing_settings.pbrt"
+Include "scanner-simulation/include/camera.pbrt"
+
+WorldBegin
+
+AttributeBegin
+    Include "scanner-simulation/include/projector_pose.pbrt"
+    Include "scanner-simulation/include/projector_parameters.pbrt" 
+    "string filename" [ "scanner-simulation/projector_images/hd/sine_patterns/3.png" ]
+AttributeEnd
+
+AttributeBegin
+    Translate 0.0 0.0 0.0
+    Rotate 90 1 0 0
+    Rotate 180 0 1 0
+    Rotate 90 0 0 1
+    Scale 0.001 0.001 0.001
+
+    Material "coatedconductor"
+        "spectrum conductor.k" [ "pbrt-v4-scenes/killeroos/spds/Au.k.spd" ]
+        "spectrum conductor.eta" [ "pbrt-v4-scenes/killeroos/spds/Au.eta.spd" ]
+        "float interface.roughness" [ 0.02 ]
+        "float conductor.roughness" [ 0.002 ]
+
+    Include "pbrt-v4-scenes/killeroos/geometry/killeroo.pbrt"
+AttributeEnd
+
